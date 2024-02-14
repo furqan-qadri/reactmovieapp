@@ -40,11 +40,11 @@ body {
 
 .app {
   padding: 4rem;
-  padding-bottom: 0px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  padding-bottom: 0px;
 }
 h1 {
     font-size: 48px !important;
@@ -199,6 +199,7 @@ h1 {
 @media screen and (max-width: 600px) {
   .app {
     padding: 4rem 2rem;
+    padding-bottom: 0px;
   }
 
   .search {
@@ -219,6 +220,7 @@ h1 {
 @media screen and (max-width: 400px) {
   .app {
     padding: 4rem 1rem;
+    padding-bottom: 0px;
   }
 
   h1 {
