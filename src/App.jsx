@@ -1,6 +1,7 @@
 import "./App.css";
+import MovieCard from "./MovieCard";
 import SearchIcon from './search.svg';
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 const API_URL='http://www.omdbapi.com?apikey=9dfb0d6a';
 
 const movie1={
@@ -13,15 +14,18 @@ const movie1={
 
 
 function App() {
+  const [movies, setMovies]= useState([]);
+  const [searchTerm, setSearchTerm]= useState('');
+
   const searchMovies= async (title) => {
   const response= await fetch(`${API_URL}&s=${title}`);
   const data= await response.json();
-  console.log(data.Search);
+  setMovies(data.Search);
   }
 
 
   useEffect(()=>{
-    searchMovies('avengers');
+    searchMovies('freedom');
   },[]);
 
 
@@ -29,34 +33,32 @@ function App() {
     <div className="app">
       <h1>MovieLand</h1>
       <div className="search">
-        <input placeholder="Search for movies"
-        value="avengers"
-        onChange={()=> {}}
-        />
-      <img src={SearchIcon} alt="search" onClick={()=> {}}/>
+      <input
+        placeholder="Search for movies"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            searchMovies(searchTerm);
+          }
+        }}
+      />
+      <img src={SearchIcon} alt="search" onClick={() => searchMovies(searchTerm)} />
       </div>
 
-      <div className="container">
-        <div className="movie">
-          <div>
-            <p> {movie1.Year}</p>
+      if {
+        movies?.length > 0 ? (
+          <div className="container">
+            {movies.map((movie)=> (
+              <MovieCard movie={movie} />
+            ))}
           </div>
-          <div>
-            <img src={ movie1.Poster !== 'N/A' ? movie1.Poster : 'https://via.placeholder.com/400' } alt={movie1.Title} />
+        ) :  (
+          <div className="empty">
+            <h2>No movies found</h2>
           </div>
-          <div>
-            <span>{movie1.Type}</span>
-            <h3>{movie1.Title}</h3>
-          </div>
-
-
-        </div>
-      </div>
-
-
-
-
-
+        )
+      }
     </div>
   );
 }
